@@ -1,0 +1,20 @@
+# Ignorar variáveis de ambiente reais
+.env
+
+# Cache Python
+__pycache__/
+*.py[cod]
+
+# Logs (se gerados pelos utilitários)
+*.log
+
+# Ambientes virtuais (caso use)
+venv/
+
+# Arquivos de sistema (Windows/Linux/macOS)
+.DS_Store
+Thumbs.db
+
+# Arquivos de IDEs
+.vscode/
+.idea/
