@@ -1,46 +1,49 @@
-# autenticador.py
+# smart_autenticacao/autenticador.py
 
 """
 Módulo responsável por carregar e validar credenciais de autenticação
 usando variáveis de ambiente definidas em um arquivo .env.
 """
 
-#importando a biblioteca de acesso ao arquivo .env
-from dotenv import load_dotenv
-#importando as variáveis de ambiente
+from dotenv import load_dotenv  # Biblioteca para carregar variáveis de ambiente de arquivos .env
 import os
 
 class Autenticador:
     """
-    Classe responsável por carregar as credenciais do ambiente (.env)
-    e validar tokens recebidos.
+    Classe que encapsula a lógica de autenticação, incluindo o carregamento
+    de variáveis de ambiente e a verificação de tokens.
     """
-    _token: str  # atributo protegido de instância esperado para armazenar o token
-
     def __init__(self, caminho_env: str | None = ".env"):
         """
-        Inicializa o autenticador carregando o arquivo .env especificado
-        e validando se a variável API_TOKEN está presente.
+        Construtor que carrega as variáveis de ambiente de um arquivo .env
+        e armazena o token em um atributo protegido.
         """
-        
-        load_dotenv(dotenv_path=caminho_env, override=True) # Carrega as variáveis de ambiente do arquivo .env
-        self._token = os.getenv("API_TOKEN") # Obtém o valor da variável API_TOKEN do ambiente
+        load_dotenv(dotenv_path=caminho_env, override=True)  # Carrega o .env
+        self._token = os.getenv("API_TOKEN")  # Busca o token
 
-        if self._token is None or self._token.strip() == "": # Verifica se a variável API_TOKEN está definida
-            raise ValueError(
-                "Erro ao carregar a variável API_TOKEN. Verifique se ela está definida no .env."
-            )
-    
-    # Método de acesso somente leitura para o token
+        if self._token is None or self._token.strip() == "":
+            raise ValueError("Erro ao carregar a variável API_TOKEN. Verifique se ela está definida no .env.")
+
     def carregar_credenciais(self) -> dict:
         """
-        Retorna as credenciais carregadas. Útil para debug ou auditoria controlada.
+        Método público que retorna o token carregado (por segurança, deve ser usado apenas em ambiente controlado).
         """
-        return {"API_TOKEN": self._token} # Retorna as credenciais carregadas
+        return {"API_TOKEN": self._token}
 
-    # Método para validar um token recebido
     def validar_token(self, token: str) -> bool:
         """
-        Compara o token recebido com o carregado do ambiente.
+        Compara o token recebido com o token carregado.
         """
         return token == self._token
+
+def verificar_autenticacao() -> dict:
+    """
+    Função auxiliar que tenta carregar o token usando a classe Autenticador
+    e retorna as credenciais ou o erro encontrado.
+    Útil para chamadas de teste na API.
+    """
+    try:
+        auth = Autenticador()
+        return auth.carregar_credenciais()
+    except Exception as e:
+        return {"erro": str(e)}

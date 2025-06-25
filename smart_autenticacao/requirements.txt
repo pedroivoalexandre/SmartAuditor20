@@ -1,0 +1,11 @@
+# Framework principal para criação da API
+fastapi==0.110.2
+
+# Servidor ASGI utilizado para executar a aplicação FastAPI
+uvicorn==0.30.0
+
+# Biblioteca para ler variáveis de ambiente do arquivo .env
+python-dotenv==1.0.1
+
+# Biblioteca de testes
+pytest==8.2.2
