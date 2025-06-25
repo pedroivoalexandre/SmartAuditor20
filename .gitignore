@@ -18,3 +18,13 @@ Thumbs.db
 # Arquivos de IDEs
 .vscode/
 .idea/
+
+# Ambientes virtuais
+venv/
+env/
+
+# Arquivos zip ou temporários
+*.zip
+*.tar
+*.bak
+*.swp
